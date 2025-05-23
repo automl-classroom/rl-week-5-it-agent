@@ -1,0 +1,17 @@
+The experiment applies the REINFORCE algorithm to the CartPole-v1 environment with six different settings.
+Each setting is trained for 500 episodes with two random seeds. The tests are:
+    Traj100: Trajectory length = 100 steps; Learning rate = 0.01
+    Traj200: Trajectory length = 200 steps; Learning rate = 0.01
+    h32_lr0.01: Hidden layer size = 32; Learning rate = 0.01
+    h128_lr0.01: Hidden layer size = 128; Learning rate = 0.01
+    h256_lr0.001: Hidden layer size = 256; Learning rate = 0.001
+    h256_lr0.01: Hidden layer size = 256; Learning rate = 0.01
+
+The results show that limiting the trajectory length to 100 or 200 steps produces identical learning curves, possibly due to the simplicity of the CartPole-v1 example.
+Small and medium networks (32 or 128 units) with a learning rate of 0.01 quickly achieve high returns, but they are extremely unstable, frequently spiking to high scores and then crashing back to near zero.
+A large network (256 units) trained at the same high learning rate fails to learn.
+In contrast, reducing the learning rate to 0.001 for the 256-unit network results in smooth improvement and the ability to reach and maintain high rewards by the end of training.
+In general, larger policy networks require smaller learning rates to control gradient variance. A hidden size of 256 with a learning rate of 0.001 offers the best balance between learning speed and stability, though some fluctuations in return remain.
+
+Compared to last week's results, DQN learns much faster by reusing past experiences through its replay buffer.
+This smooths updates and improves sample efficiency. However, REINFORCE can eventually reach higher scores (around 500), even though it requires many more episodes and shows greater variability during training.
